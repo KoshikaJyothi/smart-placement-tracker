@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import apiClient from '../services/apiClient';
 import { AuthContext } from '../context/AuthContext';
 import { Activity } from 'lucide-react';
 
@@ -10,7 +10,7 @@ const ApplicationTracker = () => {
     useEffect(() => {
         const fetchApps = async () => {
             try {
-                const { data } = await axios.get('https://smart-placement-tracker-4yap.onrender.com/api/application/student', {
+                const { data } = await apiClient.get('/api/application/student', {
                     headers: { Authorization: `Bearer ${user.token}` }
                 });
                 setApplications(data);

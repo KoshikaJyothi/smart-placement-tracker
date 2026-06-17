@@ -1,15 +1,15 @@
 import { create } from 'zustand';
-import axios from 'axios';
+import apiClient from '../services/apiClient';
 
-axios.defaults.withCredentials = true;
+apiClient.defaults.withCredentials = true;
 
 const useAuthStore = create((set) => ({
   user: null,
   loading: true,
 
   login: async (email, password) => {
-    const { data } = await axios.post(
-      'https://smart-placement-tracker-4yap.onrender.com/api/auth/login',
+    const { data } = await apiClient.post(
+      '/api/auth/login',
       { email, password },
       { withCredentials: true }
     );
@@ -23,8 +23,8 @@ const useAuthStore = create((set) => ({
   },
 
   register: async (userData) => {
-    const { data } = await axios.post(
-      'https://smart-placement-tracker-4yap.onrender.com/api/auth/register',
+    const { data } = await apiClient.post(
+      '/api/auth/register',
       userData,
       { withCredentials: true }
     );
@@ -39,8 +39,8 @@ const useAuthStore = create((set) => ({
 
   checkSession: async () => {
     try {
-      const { data } = await axios.get(
-        'https://smart-placement-tracker-4yap.onrender.com/api/auth/session',
+      const { data } = await apiClient.get(
+        '/api/auth/session',
         { withCredentials: true }
       );
 
@@ -57,8 +57,8 @@ const useAuthStore = create((set) => ({
   },
 
   logout: async () => {
-    await axios.post(
-      'https://smart-placement-tracker-4yap.onrender.com/api/auth/logout',
+    await apiClient.post(
+      '/api/auth/logout',
       {},
       { withCredentials: true }
     );

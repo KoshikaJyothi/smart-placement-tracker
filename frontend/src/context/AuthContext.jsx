@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../services/apiClient';
 
 export const AuthContext = createContext();
 
@@ -16,13 +16,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const { data } = await axios.post('https://smart-placement-tracker-4yap.onrender.com/api/auth/login', { email, password });
+    const { data } = await apiClient.post('/api/auth/login', { email, password });
     setUser(data);
     localStorage.setItem('userInfo', JSON.stringify(data));
   };
 
   const register = async (userData) => {
-    const { data } = await axios.post('https://smart-placement-tracker-4yap.onrender.com/api/auth/register', userData);
+    const { data } = await apiClient.post('/api/auth/register', userData);
     setUser(data);
     localStorage.setItem('userInfo', JSON.stringify(data));
   };

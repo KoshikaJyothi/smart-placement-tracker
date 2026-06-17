@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import apiClient from '../services/apiClient';
 import { AuthContext } from '../context/AuthContext';
 import { Building2, Calendar, CheckSquare } from 'lucide-react';
 
@@ -11,11 +11,11 @@ const CompanyListings = () => {
     useEffect(() => {
         const fetchDaata = async () => {
             try {
-                const cmpRes = await axios.get('https://smart-placement-tracker-4yap.onrender.com/api/company/all', {
+                const cmpRes = await apiClient.get('/api/company/all', {
                     headers: { Authorization: `Bearer ${user.token}` }
                 });
                 
-                const appRes = await axios.get('https://smart-placement-tracker-4yap.onrender.com/api/application/student', {
+                const appRes = await apiClient.get('/api/application/student', {
                     headers: { Authorization: `Bearer ${user.token}` }
                 });
 
@@ -35,7 +35,7 @@ const CompanyListings = () => {
 
     const handleApply = async (companyId) => {
         try {
-            await axios.post('https://smart-placement-tracker-4yap.onrender.com/api/application/apply', { companyId }, {
+            await apiClient.post('/api/application/apply', { companyId }, {
                 headers: { Authorization: `Bearer ${user.token}` }
             });
             setAppliedIds([...appliedIds, companyId]);
