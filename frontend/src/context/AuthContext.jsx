@@ -8,11 +8,37 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userInfo = localStorage.getItem('userInfo');
-    if (userInfo) {
-      setUser(JSON.parse(userInfo));
-    }
-    setLoading(false);
+    const loadCurrentUser = async () => {
+      const userInfo = localStorage.getItem('userInfo');
+
+      if (!userInfo) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const storedUser = JSON.parse(userInfo);
+
+        if (!storedUser.token) {
+          setUser(storedUser);
+          setLoading(false);
+          return;
+        }
+
+        const { data } = await apiClient.get('/api/auth/me', {
+          headers: { Authorization: `Bearer ${storedUser.token}` }
+        });
+
+        setUser({ ...data, token: storedUser.token });
+      } catch {
+        localStorage.removeItem('userInfo');
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCurrentUser();
   }, []);
 
   const login = async (email, password) => {
