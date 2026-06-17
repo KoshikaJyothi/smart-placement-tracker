@@ -3,6 +3,8 @@ import apiClient from '../services/apiClient';
 import { AuthContext } from '../context/AuthContext';
 import { Building2, Calendar, CheckSquare } from 'lucide-react';
 
+const normalizeText = (value) => (value || '').toString().trim().toUpperCase();
+
 const CompanyListings = () => {
     const { user } = useContext(AuthContext);
     const [companies, setCompanies] = useState([]);
@@ -20,10 +22,14 @@ const CompanyListings = () => {
                 });
 
                 setAppliedIds(appRes.data.map(app => app.companyId._id));
+
+                const studentCgpa = Number(user.cgpa) || 0;
+                const studentBranch = normalizeText(user.branch);
                 
                 // Filter eligible companies
                 const eligible = cmpRes.data.filter(c => {
-                    return user.cgpa >= c.minCGPA && c.allowedBranches.includes(user.branch);
+                    const companyBranches = (c.allowedBranches || []).map(normalizeText);
+                    return studentCgpa >= Number(c.minCGPA || 0) && companyBranches.includes(studentBranch);
                 });
                 setCompanies(eligible);
             } catch (err) {
