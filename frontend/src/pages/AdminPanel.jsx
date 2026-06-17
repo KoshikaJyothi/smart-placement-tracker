@@ -11,14 +11,14 @@ const AdminPanel = () => {
     const [activeTab, setActiveTab] = useState('companies'); // 'companies' or 'applications'
 
     const fetchCompanies = async () => {
-        const { data } = await axios.get('http://localhost:5000/api/company/all', {
+        const { data } = await axios.get('https://smart-placement-tracker-4yap.onrender.com/api/company/all', {
             headers: { Authorization: `Bearer ${user.token}` }
         });
         setCompanies(data);
     };
 
     const fetchApplications = async () => {
-        const { data } = await axios.get('http://localhost:5000/api/application/all', {
+        const { data } = await axios.get('https://smart-placement-tracker-4yap.onrender.com/api/application/all', {
             headers: { Authorization: `Bearer ${user.token}` }
         });
         setApplications(data);
@@ -33,7 +33,7 @@ const AdminPanel = () => {
         e.preventDefault();
         try {
             const branches = newCompany.allowedBranches.split(',').map(b => b.trim());
-            await axios.post('http://localhost:5000/api/company/add', 
+            await axios.post('https://smart-placement-tracker-4yap.onrender.com/api/company/add', 
                 { ...newCompany, allowedBranches: branches },
                 { headers: { Authorization: `Bearer ${user.token}` } }
             );
@@ -46,7 +46,7 @@ const AdminPanel = () => {
 
     const updateAppStatus = async (appId, status, round) => {
         try {
-            await axios.put('http://localhost:5000/api/application/update-status', 
+            await axios.put('https://smart-placement-tracker-4yap.onrender.com/api/application/update-status', 
                 { applicationId: appId, status, round },
                 { headers: { Authorization: `Bearer ${user.token}` } }
             );
@@ -59,7 +59,7 @@ const AdminPanel = () => {
     const deleteCompany = async (id) => {
         if(window.confirm('Delete this company?')) {
             try {
-                await axios.delete(`http://localhost:5000/api/company/${id}`, {
+                await axios.delete(`https://smart-placement-tracker-4yap.onrender.com/api/company/${id}`, {
                     headers: { Authorization: `Bearer ${user.token}` }
                 });
                 fetchCompanies();

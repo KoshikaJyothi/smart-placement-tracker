@@ -11,11 +11,11 @@ const CompanyListings = () => {
     useEffect(() => {
         const fetchDaata = async () => {
             try {
-                const cmpRes = await axios.get('http://localhost:5000/api/company/all', {
+                const cmpRes = await axios.get('https://smart-placement-tracker-4yap.onrender.com/api/company/all', {
                     headers: { Authorization: `Bearer ${user.token}` }
                 });
                 
-                const appRes = await axios.get('http://localhost:5000/api/application/student', {
+                const appRes = await axios.get('https://smart-placement-tracker-4yap.onrender.com/api/application/student', {
                     headers: { Authorization: `Bearer ${user.token}` }
                 });
 
@@ -35,7 +35,7 @@ const CompanyListings = () => {
 
     const handleApply = async (companyId) => {
         try {
-            await axios.post('http://localhost:5000/api/application/apply', { companyId }, {
+            await axios.post('https://smart-placement-tracker-4yap.onrender.com/api/application/apply', { companyId }, {
                 headers: { Authorization: `Bearer ${user.token}` }
             });
             setAppliedIds([...appliedIds, companyId]);

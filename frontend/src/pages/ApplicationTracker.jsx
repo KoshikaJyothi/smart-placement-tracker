@@ -10,7 +10,7 @@ const ApplicationTracker = () => {
     useEffect(() => {
         const fetchApps = async () => {
             try {
-                const { data } = await axios.get('http://localhost:5000/api/application/student', {
+                const { data } = await axios.get('https://smart-placement-tracker-4yap.onrender.com/api/application/student', {
                     headers: { Authorization: `Bearer ${user.token}` }
                 });
                 setApplications(data);
